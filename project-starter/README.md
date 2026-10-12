@@ -7,14 +7,18 @@ A curated, copyable baseline for TunaOS projects. It distils the practices that 
 1. Create the repository and copy this directory's contents to its root.
 2. Replace every `<…>` placeholder.
 3. Fill in `ROADMAP.md` with your current quarter's goals and priorities — link each goal to a GitHub issue.
-4. Keep the targets you implement in `Justfile`; remove unused workflow templates.
-5. Enable branch protection with `CI / required-checks` as the required check.
-6. Enable Renovate for the repository.
+4. Fill in `docs/ARCHITECTURE.md` with the system design and component descriptions.
+5. Fill in `docs/DEVELOPER-GUIDE.md` with setup instructions and local development workflow.
+6. Keep the targets you implement in `Justfile`; remove unused workflow templates.
+7. Enable branch protection with `CI / required-checks` as the required check.
+8. Enable Renovate for the repository.
 
 ## What is included
 
 | Component | Purpose | Source pattern |
 | --- | --- | --- |
+| `docs/ARCHITECTURE.md` | High-level system design, components, data flows, and integration points — helps contributors understand the project | tunaOS, bootc-migrate, tacklebox |
+| `docs/DEVELOPER-GUIDE.md` | Setup instructions, common workflows, and development process — gets contributors productive | tunaOS, bootc-migrate, wootc |
 | `ROADMAP.md` | Quarterly goals, priorities, and strategic direction — every project should plan in the open | tunaOS, tromso, tacklebox |
 | `Justfile` | One discoverable local command surface | tunaOS, bootc-migrate, wootc |
 | `renovate.json` | Automated dependency, action, digest, and pin updates | organisation default, tunaOS |
