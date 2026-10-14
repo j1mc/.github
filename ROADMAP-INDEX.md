@@ -1,6 +1,6 @@
 # Org-wide ROADMAP inventory
 
-**Last verified**: 2026-09-02 · **Source**: `gh api repos/tuna-os/<repo>/contents/ROADMAP.md?ref=<default_branch>` against every active (non-archived) repository returned by `gh repo list tuna-os --limit 200`, which is currently **40** repositories.
+**Last verified**: 2026-10-14 · **Source**: `gh api repos/tuna-os/<repo>/contents/ROADMAP.md?ref=<default_branch>` against every active (non-archived) repository returned by `gh repo list tuna-os --limit 200`, which is currently **45** repositories.
 
 tunaos#1295 and tunaos#1361 both found the same problem from different
 angles: nobody — human or agent — could see at a glance which repos in the
@@ -24,64 +24,74 @@ scope problem, not a coverage problem: a table that only re-checks the repos it
 already lists cannot notice a repository being created. See
 `tuna-os/.github#52`.
 
-## Coverage: 36 / 40 active repos
+## Coverage: 38 / 45 active repos
 
-Roadmap coverage grew from 16/37 on August 14 to 36/37 on August 30 against the
-scope known at the time; re-measured against the full active set on September 2
-it is **36 / 40**. The four repositories without a roadmap:
+Roadmap coverage on 2026-10-14 is **38 / 45** (84.4%). The scope grew from 40 to 45
+active repositories since September 2 verification (+5 new repos). Seven repositories
+remain without a roadmap:
 
-- `kde-build-meta` — documented as superseded by `tromso`; its open retirement
-  tracker (`tuna-os/kde-build-meta#19`) is the appropriate lifecycle decision
-  instead of creating a roadmap for inactive work.
-- `spindle` — a Matrix homeserver, and the first network-facing multi-tenant
-  server software in the org. A roadmap is proposed in
-  `tuna-os/spindle` (branch `strategy/spindle-roadmap`); this row flips once it
-  merges.
-- `blueshell` — active, default branch `ptyxis-port`, not `main`.
-- `hive` — active, default branch `v4`, not `main`.
+- `PaperWM` — desktop environment component; new to org inventory
+- `ccleft` — new to org inventory
+- `hive` — active, default branch `v4`, not `main`
+- `hive-operator` — new to org inventory
+- `libcosmic` — new to org inventory
+- `quickcast` — new to org inventory
+- `rdocx` — new to org inventory
+- `rust-atomicwrites` — new to org inventory
+
+**Status updates since September 2**:
+- `spindle` — roadmap now **merged** to main (was proposed in `strategy/spindle-roadmap`); now shows ✅
+- `blueshell` — roadmap now on `ptyxis-port` default branch; now shows ✅
+- `kde-build-meta` — archived; removed from active scope
 
 | Repo | Default branch | ROADMAP.md? |
 |---|---|---|
+| PaperWM | release | ❌ |
 | Tavern | main | ✅ |
 | bluefin-cli | main | ✅ |
-| blueshell | ptyxis-port | ❌ |
-| bootc-installer | dev | ✅ (tuna-os/bootc-installer#14, merged 08-14) |
-| bootc-migrate | main | ✅ |
-| corral | main | ✅ |
-| docs | main | ✅ |
-| dualcut | main | ✅ |
-| gtk-office-suite | main | ✅ |
-| iso-builder | main | ✅ |
-| protota | main | ✅ |
-| tacklebox | main | ✅ |
-| tromso | main | ✅ |
-| tunaOS | main | ✅ |
-| tunaos-packages | main | ✅ |
-| wootc | main | ✅ |
-| xfce-linux | main | ✅ |
-| .github | main | ✅ |
+| blueshell | ptyxis-port | ✅ |
+| bootc-installer | dev | ✅ |
 | bootc-installer-asahi | main | ✅ |
+| bootc-migrate | main | ✅ |
 | branding | main | ✅ |
 | bst-ci | main | ✅ |
+| ccleft | main | ❌ |
 | changelog-action | master | ✅ |
+| corral | main | ✅ |
 | debian-copr | main | ✅ |
+| docs | main | ✅ |
+| dualcut | main | ✅ |
 | finupdate | main | ✅ |
 | fisherman | dev | ✅ |
 | flatpak-index | main | ✅ |
+| gtk-office-suite | main | ✅ |
 | hive | v4 | ❌ |
+| hive-operator | main | ❌ |
 | homebrew-tap | main | ✅ |
-| kde-build-meta | master | ❌ |
+| iso-builder | main | ✅ |
+| libcosmic | master | ❌ |
 | mandelbrot | main | ✅ |
 | mariner | master | ✅ |
+| protota | main | ✅ |
+| quickcast | main | ❌ |
+| rdocx | main | ❌ |
 | remora | main | ✅ |
+| rust-atomicwrites | master | ❌ |
 | scoop-bucket | main | ✅ |
-| spindle | main | ❌ (proposed: `strategy/spindle-roadmap`) |
+| spindle | main | ✅ |
 | suite-common | main | ✅ |
 | suite-common-rust | main | ✅ |
+| tacklebox | main | ✅ |
+| tromso | main | ✅ |
+| tuna-desktop | main | ✅ |
 | tuna-installer-cosmic | main | ✅ |
 | tuna-installer-kde | main | ✅ |
 | tuna-installer-niri | main | ✅ |
 | tuna-installer-xfce | main | ✅ |
+| tunaOS | main | ✅ |
+| tunaos-packages | main | ✅ |
+| wootc | main | ✅ |
+| xfce-linux | main | ✅ |
 
 ## A note on "ROADMAP.md exists" vs. reachable
 
