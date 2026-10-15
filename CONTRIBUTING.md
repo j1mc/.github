@@ -24,6 +24,8 @@ of base OS × desktop × kernel × drivers, plus installer and migration tooling
    branch. We use the `arch/`, `fix/`, `feat/`, `chore/` prefix convention.
 3. **Check the repo's `AGENTS.md` / `justfile`** — most repos standardize
    build/test/lint behind `just` recipes (`just build`, `just test`, `just fix`).
+   Some repositories use a non-`main` default branch (e.g., `dev`, `v4`, `ptyxis-port`);
+   your branch should target that repo's actual default, not `main`.
 4. **Sign your commits** — every commit must be DCO-signed-off
    (`git commit -s`). This certifies you wrote the change and can license it.
 
@@ -42,6 +44,11 @@ of base OS × desktop × kernel × drivers, plus installer and migration tooling
 - **One source of truth per artifact.** Before adding a new copy of a script,
   workflow, or spec, check whether a canonical version exists (e.g. the flatpak
   publish tooling, `update-index.py`). Prefer reusing it over copying.
+- **Shared scripts must stay in sync.** Some scripts exist in multiple locations
+  (e.g., `check-workflow-permissions.py` in both `.github/scripts/` and
+  `project-starter/scripts/`). When updating a shared script, update all copies
+  and verify they remain byte-identical. The canonical version is always the one
+  in `.github/`.
 - **Deliberate duplication is flagged.** Some frontends intentionally
   reimplement a shared contract per language (see
   `tuna-os/docs/docs/bootc-installer-asahi/UNIFIED-INSTALL-CONTRACT.md` —
