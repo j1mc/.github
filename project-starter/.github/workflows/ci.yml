@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
       - name: Run the local-equivalent checks
@@ -29,18 +29,28 @@ jobs:
   # (see tuna-os/tunaOS#1612, tuna-os/tunaOS#1636) — this actually resolves
   # the rule layering instead of just checking JSON schema.
   renovate-policy:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
       - name: Check Renovate automerge policy
         run: python3 scripts/check-renovate-automerge-policy.py renovate.json
 
+  # Enforces tuna-os/.github#155: every workflow declares an explicit
+  # top-level `permissions:` block (least privilege). This is the same check
+  # that runs in tuna-os/.github itself; new repos inherit it by default.
+  workflow-permissions:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check workflow permissions
+        run: python3 scripts/check-workflow-permissions.py .github/workflows
+
   # Make this the sole required branch-protection check. Add every mandatory
   # job to needs; optional E2E jobs must report success or skipped.
   required-checks:
     if: always()
-    needs: [validate, renovate-policy]
-    runs-on: ubuntu-24.04
+    needs: [validate, renovate-policy, workflow-permissions]
+    runs-on: ubuntu-26.04
     steps:
       - name: Fail if a required job did not succeed
         env:
