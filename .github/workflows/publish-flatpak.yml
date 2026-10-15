@@ -6,6 +6,15 @@ name: Publish Flatpak (reusable)
 # (publish cadence differs per repo -- tags-only, main+tags, PR-gated builds,
 # etc.) and become a thin job that `uses:` this with `secrets: inherit`.
 #
+# Least privilege (tuna-os/.github#139): the top-level `permissions:` block is
+# the ceiling every job inherits (a job may only be downgraded from it), so it
+# is the minimum `build-oci` needs (`contents: read`); `packages: write` and
+# `contents: write` are granted only on the `publish` and `release-bundles`
+# jobs that genuinely need them. The workflow declares the one secret it uses
+# (`FLATPAK_INDEX_TOKEN`) rather than `secrets: inherit`, and callers are
+# encouraged to pass named secrets too -- `secrets: inherit` still forwards
+# every caller secret, this workflow only ever reads the ones it declares.
+#
 # Not used by Tavern: it has a prod/main branch split and a promotion flow
 # this workflow doesn't model. See tuna-os/tunaos#1183 for that follow-up.
 #
@@ -93,6 +102,15 @@ on:
       FLATPAK_INDEX_TOKEN:
         required: true
 
+permissions:
+  # Least privilege. This is a reusable workflow, so this default is the
+  # ceiling every job inherits; a job may only be *downgraded* from it, never
+  # elevated. Only `publish` (GHCR push) genuinely needs packages: write and
+  # only `release-bundles` (release upload) needs contents: write, so both are
+  # overridden at job level and `build-oci` never leaves with write access.
+  # See tuna-os/.github#139.
+  contents: read
+
 jobs:
   build-oci:
     name: Build OCI (${{ matrix.arch }})
@@ -105,7 +123,7 @@ jobs:
       image: ghcr.io/flathub-infra/flatpak-github-actions:${{ inputs.flatpak-builder-image }}
       options: --privileged
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           # Empty `repository`/`ref` is not the same as omitting them for
           # actions/checkout -- an empty string takes the same "not provided"
@@ -130,7 +148,7 @@ jobs:
         # in production; the other five repos were on the older v6 with no
         # comment explaining an intentional avoidance of v6.7, so this is a
         # bump for them, not a downgrade for anyone.
-        uses: flatpak/flatpak-github-actions/flatpak-builder@v6.8
+        uses: flatpak/flatpak-github-actions/flatpak-builder@79327416609af08178ad73b352877e51450790b3
         with:
           manifest-path: ${{ inputs.manifest-path }}
           cache-key: flatpak-builder-${{ inputs.repo-name }}-${{ github.sha }}-${{ matrix.arch }}
@@ -145,7 +163,7 @@ jobs:
             repo oci-${{ matrix.arch }} "${{ inputs.app-id }}"
 
       - name: Upload OCI artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: oci-${{ matrix.arch }}
           path: oci-${{ matrix.arch }}/
@@ -153,7 +171,7 @@ jobs:
 
       - name: Upload bundle artifact
         if: inputs.attach-bundles
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: bundle-${{ matrix.arch }}
           path: ${{ inputs.app-id }}-${{ matrix.arch }}.flatpak
@@ -163,7 +181,10 @@ jobs:
     name: Publish
     needs: build-oci
     if: inputs.publish
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      packages: write  # GHCR push (skopeo login + copy) and the index write.
     steps:
       # Explicit per-arch downloads, not `pattern: 'oci-*'` -- confirmed by a
       # real failure (tuna-installer-cosmic run 33037056111) that
@@ -175,14 +196,14 @@ jobs:
       # match-count-dependent behavior.
       - name: Download x86_64 OCI artifact
         if: contains(fromJSON(inputs.archs), 'x86_64')
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           name: oci-x86_64
           path: oci-x86_64
 
       - name: Download aarch64 OCI artifact
         if: contains(fromJSON(inputs.archs), 'aarch64')
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           name: oci-aarch64
           path: oci-aarch64
@@ -247,9 +268,11 @@ jobs:
     name: Attach bundles to release
     needs: publish
     if: inputs.attach-bundles && startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write  # gh release upload needs to create release assets.
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           pattern: 'bundle-*'
           merge-multiple: true
