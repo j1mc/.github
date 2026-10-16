@@ -11,7 +11,7 @@ body:
 
         If your issue is specific to the TunaOS operating system image (desktop
         variants, system ISOs, or OS image builds), please file it in
-        [tuna-os/tunaos](https://github.com/tuna-os/tunaos/issues).
+        [tuna-os/tunaOS](https://github.com/tuna-os/tunaOS/issues).
   - type: textarea
     id: what-happened
     attributes:

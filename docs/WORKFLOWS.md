@@ -310,7 +310,7 @@ label or an assignee.
 ### publish-flatpak.yml
 
 **Purpose.** Canonical build → GHCR → central index pipeline for tuna-os flatpak
-apps (tuna-os/tunaos#1183). Callers keep their own `on:` trigger (publish cadence
+apps (tuna-os/tunaOS#1183). Callers keep their own `on:` trigger (publish cadence
 differs per repo — tags-only, main+tags, PR-gated builds) and become a thin job
 that `uses:` this with `secrets: inherit`.
 
@@ -365,7 +365,7 @@ jobs:
   each its own independent clone/retry/push cycle against `tuna-os/docs`.
 - `attach-bundles` only runs on tag pushes (`startsWith(github.ref, 'refs/tags/')`).
 - Not used by `tuna-os/Tavern`: it has a prod/main branch split and a promotion
-  flow this workflow does not model (tuna-os/tunaos#1183).
+  flow this workflow does not model (tuna-os/tunaOS#1183).
 
 ## Common patterns and anti-patterns
 

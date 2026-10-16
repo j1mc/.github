@@ -87,7 +87,7 @@ drifted. The `check-*` scripts have no drift check today; add a byte-comparison
 
 ## CI/CD security
 
-Every workflow in a tunaOS repository must declare an explicit top-level
+Every workflow in a TunaOS repository must declare an explicit top-level
 `permissions:` block, following the principle of least privilege:
 
 ```yaml
