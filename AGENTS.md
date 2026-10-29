@@ -39,7 +39,7 @@ whose jobs hold `packages: write` and `FLATPAK_INDEX_TOKEN`.
 ## The drift check, and what it does not cover
 
 `flatpak-tooling-drift-check.yml` is an interim guard for
-[tuna-os#1183](https://github.com/tuna-os/tunaOS/issues/1183): `update-index.py`
+[tuna-os/tunaOS#1183](https://github.com/tuna-os/tunaOS/issues/1183): `update-index.py`
 was byte-copied across repos with no shared source of truth. Weekly, it
 compares eight application repos' `.github/scripts/update-index.py` against
 `.github/actions/update-flatpak-index/update-index.py`, which it treats as
@@ -85,7 +85,7 @@ python3 scripts/check-renovate-automerge-policy.py renovate.json
 `renovate-policy-check.yml` enforces [#12](https://github.com/tuna-os/.github/issues/12)
 against this repo's own `renovate.json`: a syntactically valid config can still
 automerge major and minor updates once `packageRules` are layered
-(tuna-os#1612, tuna-os#1636), which a schema validator alone would not catch.
+(tuna-os/tunaOS#1612, tuna-os/tunaOS#1636), which a schema validator alone would not catch.
 
 `scripts/check-renovate-automerge-policy.py` and
 `project-starter/scripts/check-renovate-automerge-policy.py` are byte-identical
@@ -106,6 +106,9 @@ line to add.
 
 For the reusable workflows these checks operate on — what each input does, its
 defaults, and how a repo calls one — see [`docs/WORKFLOWS.md`](docs/WORKFLOWS.md).
+For the reusable composite actions hosted in `.github/actions/`, see
+[`.github/actions/ACTIONS.md`](.github/actions/ACTIONS.md).
+For the validation scripts enforcing these policies — purpose, usage, exit codes, and project-starter sync — see [`docs/SCRIPTS.md`](docs/SCRIPTS.md).
 
 ## Workflow permissions check
 

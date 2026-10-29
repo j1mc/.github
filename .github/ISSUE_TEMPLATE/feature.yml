@@ -10,7 +10,7 @@ body:
         repository's roadmap or documentation before filing.
 
         If your suggestion is for the overall TunaOS operating system image,
-        please file it in [tuna-os/tunaos](https://github.com/tuna-os/tunaos/issues).
+        please file it in [tuna-os/tunaOS](https://github.com/tuna-os/tunaOS/issues).
   - type: textarea
     id: problem
     attributes:

@@ -10,6 +10,12 @@ A curated, copyable baseline for TunaOS projects. It distils the practices that 
 4. Keep the targets you implement in `Justfile`; remove unused workflow templates.
 5. Enable branch protection with `CI / required-checks` as the required check.
 6. Enable Renovate for the repository.
+7. Keep a visible [Hive donation link](https://hub.tunaos.org/#contribute) in
+   the project's README and community guidance. Repositories without their own
+   contributor guide inherit the
+   [organization guide](https://github.com/tuna-os/.github/blob/main/CONTRIBUTING.md).
+   If you add a local guide, retain the donation link alongside code and docs
+   contribution instructions; link to the hub instead of copying its setup command.
 
 ## What is included
 
@@ -20,7 +26,7 @@ A curated, copyable baseline for TunaOS projects. It distils the practices that 
 | `renovate.json` | Automated dependency, action, digest, and pin updates | organisation default, tunaOS |
 | `ci.yml` | Least-privilege checks, cancellation, and a branch-protection sentinel | bootc-migrate |
 | `scripts/check-workflow-permissions.py` | CI gate: fails the build if any workflow omits a top-level `permissions:` block, so jobs inherit the least-privilege scope (tuna-os/.github#155) | tuna-os/.github#155 |
-| `scripts/check-renovate-automerge-policy.py` | CI gate: fails the build if `renovate.json` would automerge a major/minor update, even via rule layering (tuna-os/.github#12) | tuna-os/.github#1636 |
+| `scripts/check-renovate-automerge-policy.py` | CI gate: fails the build if `renovate.json` would automerge a major/minor update, even via rule layering (tuna-os/.github#12) | tuna-os/tunaOS#1636 |
 | `flatpak-remote.yml` | Build an OCI Flatpak and update a hosted remote index | tuna-os/docs |
 | `docs-artifacts.yml` | Turn validated screenshots or walkthroughs into versioned docs | tunaOS → docs |
 | `release.yml` + `release-artifacts.json` | Publish a release, then fail closed unless its tag and integrity evidence verify | organisation release policy |

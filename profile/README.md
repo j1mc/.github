@@ -19,6 +19,7 @@ TunaOS builds desktop operating systems as [bootc](https://containers.github.io/
 
 | If you | Start with |
 |---|---|
+| Want to help without code | [**Donate time with your AI CLI**](https://hub.tunaos.org/#contribute) — use the hub's existing round-robin setup |
 | Run Windows and want to try Linux | [**wootc**](https://github.com/tuna-os/wootc) — installs Linux into a file beside your Windows files, adds a boot entry, and uninstalls by deleting a folder |
 | Want an ISO to install | [**Download**](https://tunaos.org/download) — live ISOs for every published image |
 | Already run bootc | `sudo bootc switch ghcr.io/tuna-os/albacore:gnome` |
@@ -50,7 +51,7 @@ Built in this org and published on the TunaOS Flatpak remote, so they install on
 
 | Project | What it is |
 |---|---|
-| [gtk-office-suite](https://github.com/tuna-os/gtk-office-suite) | Letters, Tables and Decks: a word processor, spreadsheet and presentation app in Rust and GTK 4. DOCX, ODT, XLSX, ODS and PPTX in, PDF out. Built on the [suite-common](https://github.com/tuna-os/suite-common) and [suite-common-rust](https://github.com/tuna-os/suite-common-rust) shared scaffolds |
+| [gtk-office-suite](https://github.com/tuna-os/gtk-office-suite) | Letters, Tables and Decks: a word processor, spreadsheet and presentation app in Rust and GTK 4. DOCX, ODT, XLSX, ODS and PPTX in, PDF out. |
 | [blueshell](https://github.com/tuna-os/blueshell) | A container-native terminal for GNOME on the Ghostty engine |
 | [mariner](https://github.com/tuna-os/mariner) | A GNOME Files alternative — typeahead, dual-pane, Quick Look, full-text search |
 | [Tavern](https://github.com/tuna-os/Tavern) | A GTK 4 front end for Homebrew on Linux |
@@ -90,11 +91,13 @@ Release plumbing ships alongside: [homebrew-tap](https://github.com/tuna-os/home
 
 ## Automation
 
-The [hive](https://github.com/tuna-os/hive) runs fleets of AI agents across these repositories - [reef](https://reef.tunaos.org/contribute) for applications, [school](https://school.tunaos.org/contribute) for the operating system - with the [hive-operator](https://github.com/tuna-os/hive-operator) for Kubernetes, the [gnome-hive-monitor](https://github.com/tuna-os/gnome-hive-monitor) shell extension for watching them, and [ccleft](https://github.com/tuna-os/ccleft) tracking agent-account quota.
-
-## Archived
-
-Retired work stays read-only for reference. The old Ubuntu line ([ubuntu](https://github.com/tuna-os/ubuntu), [ubuntu-26.04-iso](https://github.com/tuna-os/ubuntu-26.04-iso)) and the Dakota line ([dakota](https://github.com/tuna-os/dakota), [dakota-iso](https://github.com/tuna-os/dakota-iso), [dakota-x13s](https://github.com/tuna-os/dakota-x13s)); the per-desktop ISO builders ([tromso-iso](https://github.com/tuna-os/tromso-iso), [xfce-linux-iso](https://github.com/tuna-os/xfce-linux-iso)) superseded by in-tree ISO builds; the earlier installer attempts ([bootc-builder](https://github.com/tuna-os/bootc-builder), [bootc-installer-tui](https://github.com/tuna-os/bootc-installer-tui), [bootc-isos](https://github.com/tuna-os/bootc-isos), [first-setup](https://github.com/tuna-os/first-setup)); the pre-Rust office apps ([letters](https://github.com/tuna-os/letters), [tables](https://github.com/tuna-os/tables), [decks](https://github.com/tuna-os/decks)) superseded by the office suite; plus [chunkah](https://github.com/tuna-os/chunkah) (OCI layer optimization), [bonito-x13s](https://github.com/tuna-os/bonito-x13s) (ThinkPad X13s ARM64, whose story is in the [FAQ](https://tunaos.org/docs/faq)), and retired build meta ([images](https://github.com/tuna-os/images), [packages](https://github.com/tuna-os/packages), [thinkpad-x13s-gnome-build-meta](https://github.com/tuna-os/thinkpad-x13s-gnome-build-meta), [demo-repository](https://github.com/tuna-os/demo-repository)).
+[Hive](https://github.com/hivecommons/hive) coordinates AI agents across these repositories.
+The TunaOS School and Reef hives run on Kubernetes in AWS with Talos Linux nodes.
+The [TunaOS fork](https://github.com/tuna-os/hive),
+[hive-operator](https://github.com/tuna-os/hive-operator),
+[gnome-hive-monitor](https://github.com/tuna-os/gnome-hive-monitor), and
+[ccleft](https://github.com/tuna-os/ccleft) provide the platform, Kubernetes
+operator, desktop monitor, and agent quota tools.
 
 ## Documentation
 
@@ -106,10 +109,23 @@ We maintain forks where our builds need them - [PaperWM](https://github.com/tuna
 
 ## Contributing
 
-Every repository takes issues and pull requests, and much of the work lands upstream in freedesktop-sdk, GNOME OS, KDE and BuildStream. Start at the [documentation](https://tunaos.org/docs/intro), or at [support](https://tunaos.org/support) if you would rather back the projects TunaOS is built on.
+<!-- hive-contribute-plea: donated-compute appeal, keep in sync across repos -->
+### Contribute compute — no code needed
 
-<!-- hive-contribute-plea: donated-compute appeal -->
-No time for code? Lend a hive your AI subscription or API tokens and your machine runs contributor tasks from our backlog: 🪸 [reef](https://reef.tunaos.org/contribute) (applications) · 🏫 [school](https://school.tunaos.org/contribute) (operating system).
+**[Donate time with your AI CLI](https://hub.tunaos.org/#contribute).**
+
+Your machine runs one task at a time using your signed-in AI coding CLI.
+The relay alternates between eligible **School** (OS) and **Reef** (apps)
+hives after each task. If one hive has no work, the other can continue.
+
+The guide covers prerequisites, verified `just` setup, credentials, provider
+costs, and how to stop with Ctrl+C. Your subscription quota or API charges apply.
+Never post account credentials or API keys in issues or pull requests.
+
+For code and documentation changes, follow the
+[contribution guide](https://github.com/tuna-os/.github/blob/main/CONTRIBUTING.md)
+or choose an [org-wide starter issue](https://github.com/issues?q=org%3Atuna-os+is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+To fund the upstream projects TunaOS builds on, see [support](https://tunaos.org/support).
 
 ---
 

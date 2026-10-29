@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "window_days": 30,
+  "min_sample_runs": 5,
+  "step": 0.05,
+  "gates": [
+    {
+      "name": "workflow-permissions",
+      "workflow": "workflow-permissions-check.yml",
+      "alert_threshold": 0.2,
+      "min_threshold": 0.05,
+      "max_threshold": 0.5
+    },
+    {
+      "name": "workflow-action-pins",
+      "workflow": "workflow-action-pin-check.yml",
+      "alert_threshold": 0.2,
+      "min_threshold": 0.05,
+      "max_threshold": 0.5
+    },
+    {
+      "name": "renovate-policy",
+      "workflow": "renovate-policy-check.yml",
+      "alert_threshold": 0.2,
+      "min_threshold": 0.05,
+      "max_threshold": 0.5
+    },
+    {
+      "name": "release-verification",
+      "workflow": "release-verification-test.yml",
+      "alert_threshold": 0.2,
+      "min_threshold": 0.05,
+      "max_threshold": 0.5
+    },
+    {
+      "name": "ste-lint",
+      "workflow": "ste-lint.yml",
+      "alert_threshold": 0.2,
+      "min_threshold": 0.05,
+      "max_threshold": 0.5
+    }
+  ]
+}
