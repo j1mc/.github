@@ -40,7 +40,9 @@ Replace the whole clone → update-index.py → commit → push block with:
 For multi-arch publishes, call it once per architecture, same as before —
 each call is its own independent clone/retry/push cycle. `index-file`
 defaults to `static/flatpak/index/static`, `registry` to `ghcr.io`,
-`docs-repo` to `tuna-os/docs`.
+`docs-repo` to `tuna-os/docs`. The wrapper always runs the publisher unit
+tests before cloning or writing the index. A test failure stops the action;
+there is no opt-out on this publishing path.
 
 On a rejected push, the action re-clones `docs-repo` at its new tip and
 regenerates *this app's* entry against it before retrying (up to

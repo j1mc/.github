@@ -12,6 +12,8 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -273,6 +275,50 @@ class PublisherTests(unittest.TestCase):
         with self.assertRaises(ValueError) as caught:
             update_index.read_oci_layout(oci_dir)
         self.assertIn("No manifests listed", str(caught.exception))
+
+
+class PublishWrapperGateTests(unittest.TestCase):
+    def test_wrapper_runs_suite_unconditionally_before_index_update(self):
+        action = (HERE.parent / "publish-flatpak-index" / "action.yml").read_text()
+        gate = (
+            '    - name: Publisher tests\n'
+            '      shell: bash\n'
+            '      run: python3 "$GITHUB_ACTION_PATH/../update-flatpak-index/update-index.test.py"\n'
+        )
+        self.assertIn("  steps:\n" + gate, action)
+        self.assertLess(
+            action.index(gate), action.index("    - name: Update index and push")
+        )
+
+    def test_wrapper_gate_failure_stops_subsequent_step(self):
+        # Exercise the actual gate command with a failing Python executable,
+        # then model Actions' default stop-on-failure behavior with bash -e.
+        action = (HERE.parent / "publish-flatpak-index" / "action.yml").read_text()
+        command = action.split("    - name: Publisher tests\n", 1)[1].split(
+            "      run: ", 1
+        )[1].splitlines()[0]
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            python = tmp_path / "python3"
+            python.write_text('#!/bin/sh\nprintf "%s" "$1" > "$TRACE"\nexit 42\n')
+            python.chmod(0o755)
+            env = {
+                **os.environ,
+                "PATH": str(tmp_path) + os.pathsep + os.environ.get("PATH", ""),
+                "GITHUB_ACTION_PATH": str(HERE.parent / "publish-flatpak-index"),
+                "TRACE": str(tmp_path / "trace"),
+            }
+            result = subprocess.run(
+                ["bash", "-e", "-c", command + '\necho write > "$TRACE.write"'],
+                env=env,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 42)
+            self.assertEqual(
+                Path((tmp_path / "trace").read_text()).resolve(),
+                HERE / "update-index.test.py",
+            )
+            self.assertFalse((tmp_path / "trace.write").exists())
 
 
 if __name__ == "__main__":

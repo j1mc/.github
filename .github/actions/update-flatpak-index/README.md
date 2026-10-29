@@ -19,6 +19,11 @@ with:
 ```
 
 `registry` defaults to `ghcr.io`; `index-file` defaults to `index/static`.
+The `run-tests` input defaults to `"true"`, running the publisher's unit tests
+before updating the index; a failure stops the action. Direct callers can set
+`run-tests: "false"` to skip this gate. The `publish-flatpak-index` wrapper
+always runs the suite before attempting to publish and has no opt-out.
+
 For multi-arch publishes, call the action once per architecture (matching
 the existing per-repo loop pattern) — `update-index.py` only ever replaces
 the entry for the architecture it was given, leaving other arches in the

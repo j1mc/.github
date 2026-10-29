@@ -86,7 +86,7 @@ Downstream workflows or composite actions reference these actions using:
 ### 4. `publish-flatpak-index`
 - **Location:** [`.github/actions/publish-flatpak-index/action.yml`](publish-flatpak-index/action.yml)
 - **Documentation:** [`.github/actions/publish-flatpak-index/README.md`](publish-flatpak-index/README.md)
-- **Description:** Clones `tuna-os/docs`, invokes `update-flatpak-index`, commits, and pushes back to GitHub with jittered exponential backoff and retry logic to gracefully resolve concurrent publisher collisions.
+- **Description:** Runs the publisher unit tests before cloning or writing the index, then updates, commits, and pushes to `tuna-os/docs` with jittered retry logic for concurrent publisher collisions. The test gate has no opt-out.
 - **Inputs:**
   - `oci-dir` *(required)*: Path to local OCI layout directory containing `index.json`.
   - `repo-name` *(required)*: Target registry repository name (e.g. `tuna-os/tavern`).
@@ -141,6 +141,7 @@ Downstream workflows or composite actions reference these actions using:
   - `registry` *(optional, default: `ghcr.io`)*: Registry hostname.
   - `tags` *(optional, default: `latest`)*: Space-separated list of image tags.
   - `require-appstream` *(optional, default: `"false"`)*: Fail if AppStream metadata labels are missing.
+  - `run-tests` *(optional, default: `"true"`)*: Run publisher unit tests before updating; set to `"false"` to skip for direct callers.
 - **Usage:**
   ```yaml
   - name: Update index

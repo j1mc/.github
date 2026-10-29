@@ -42,6 +42,10 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Publisher tests
+      shell: bash
+      run: python3 "$GITHUB_ACTION_PATH/../update-flatpak-index/update-index.test.py"
+
     - name: Update index and push (retry on race with other publishers)
       shell: bash
       env:
